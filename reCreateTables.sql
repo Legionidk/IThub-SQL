@@ -4,7 +4,7 @@ AS $$
 	CREATE TABLE IF NOT EXISTS employeesCredentials (
 		code SERIAL not null
 			constraint PK_employeesCredentials primary key,
-		login varchar(36) not null,
+		login varchar(36) not null unique,
 		password varchar(36) not null
 	);
 	
@@ -33,7 +33,7 @@ AS $$
 	CREATE TABLE IF NOT EXISTS customers (
 		OKPO SERIAL not null
 			constraint PK_customers primary key,
-		contactPhone varchar(11) not null,
+		contactPhone varchar(11) not null unique,
 		physicalAddress varchar(255) not null,
 		legalAddress varchar(255) not null,
 		fullName varchar(255) not null,
@@ -47,7 +47,7 @@ AS $$
 			references customers (OKPO)
 			on update cascade on delete cascade,
 		expiration date,
-		physicalAddress varchar(10) not null
+		status varchar(10) not null
 	);
 	
 	CREATE TABLE IF NOT EXISTS applications (
@@ -56,7 +56,7 @@ AS $$
 		agreementId int not null
 			references agreements (id)
 			on update cascade on delete cascade,
-		applicantode int not null
+		applicantcode int not null
 			references employeesCredentials (code)
 			on update cascade on delete cascade,
 		expiration date not null
@@ -66,8 +66,8 @@ AS $$
 		code SERIAL not null
 			constraint PK_equipment primary key,
 		type varchar(36) not null,
-		model varchar(36) not null
-		brand varchar(36),
+		model varchar(36) not null,
+		brand varchar(36)
 	);
 	
 	CREATE TABLE IF NOT EXISTS components (
