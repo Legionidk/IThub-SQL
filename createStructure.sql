@@ -21,7 +21,7 @@ AS $$
 			on update cascade on delete cascade,
 		name varchar(36) not null,
 		lastName varchar(36) not null,
-		middleName varchar(36) not null
+		middleName varchar(36)
 	);
 
 	CREATE INDEX IF NOT EXISTS
@@ -37,7 +37,7 @@ AS $$
 			on update cascade on delete cascade,
 		name varchar(36) not null,
 		lastName varchar(36) not null,
-		middleName varchar(36) not null
+		middleName varchar(36)
 	);
 
 	CREATE INDEX IF NOT EXISTS
