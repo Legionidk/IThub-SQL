@@ -3,12 +3,12 @@
 CREATE OR REPLACE PROCEDURE loadSampleEmployee()
 LANGUAGE SQL
 AS $$
-	-- insert into equipment (type, model, brand) values
-	-- ('Ноутбук', 'RT-1000', 'Asus'),
-	-- ('Принтер', 'HP-WV123', 'HP'),
-	-- ('Сканер', 'SH-200', 'Samsung'),
-	-- ('Ноутбук', 'LVT-14000', 'Lenovo'),
-	-- ('МФУ', '75-AR-200', 'Xerox');
+	insert into equipment (type, model, brand) values
+	('Ноутбук', 'RT-1000', 'Asus'),
+	('Принтер', 'HP-WV123', null),
+	('Сканер', 'SH-200', 'Samsung'),
+	('Ноутбук', 'LVT-14000', 'Lenovo'),
+	('МФУ', '75-AR-200', 'Xerox');
 
 	-- insert into employeescredentials (login, password) values
 	-- ('clt_User_1', 'PaSSw0rd'),
@@ -43,8 +43,6 @@ AS $$
 	-- (12, 'Пётр', 'Петров', 'Петрович'),
 	-- (13, 'Алексей', 'Алексеев', 'Алексеевич'),
 	-- (14, 'Андрей', 'Андреев', 'Андреевич');
-
-	insert into customers ()
 $$;
 
 CALL loadSampleEmployee();
