@@ -46,8 +46,8 @@ AS $$
 		Index_employeesCode_customersEmployees on customersEmployees (employeesCode);
 	
 	CREATE TABLE IF NOT EXISTS customers (
-		OKPO SERIAL not null
-			constraint PK_customers primary key,
+		id SERIAL constraint PK_customers primary key,
+		OKPO int unique not null,
 		contactPhone varchar(11) not null unique,
 		physicalAddress varchar(255) not null,
 		legalAddress varchar(255) not null,
@@ -76,8 +76,8 @@ AS $$
 		Index_customerOKPO_agreements on agreements (customerokpo);
 
 	CREATE TABLE IF NOT EXISTS applications (
-		number SERIAL not null
-			constraint PK_applications primary key,
+		id SERIAL constraint PK_applications primary key,
+		number int unique not null,
 		agreementId int not null
 			references agreements (id)
 			on update cascade on delete cascade,
