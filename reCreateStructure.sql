@@ -6,7 +6,7 @@ AS $$
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON employeesCredentials FROM rl_administrator;
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON companyEmployees FROM rl_administrator;
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON customersEmployees FROM rl_administrator;
-	REVOKE USAGE, SELECT ON SEQUENCE customers_okpo_seq FROM rl_administrator;
+	REVOKE USAGE, SELECT ON SEQUENCE customers_id_seq FROM rl_administrator;
 	REVOKE USAGE, SELECT ON SEQUENCE agreements_id_seq FROM rl_administrator;
 	REVOKE USAGE, SELECT ON SEQUENCE employeescredentials_code_seq FROM rl_administrator;
 	REVOKE USAGE, SELECT ON SEQUENCE companyemployees_id_seq FROM rl_administrator;
@@ -15,7 +15,7 @@ AS $$
 	REVOKE SELECT, INSERT, UPDATE ON applications FROM rl_customer;
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON equipment FROM rl_customer;
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON components FROM rl_customer;
-	REVOKE USAGE, SELECT ON SEQUENCE applications_number_seq FROM rl_customer;
+	REVOKE USAGE, SELECT ON SEQUENCE applications_id_seq FROM rl_customer;
 	REVOKE USAGE, SELECT ON SEQUENCE equipment_code_seq FROM rl_customer;
 	REVOKE USAGE, SELECT ON SEQUENCE components_code_seq FROM rl_customer;
 
@@ -24,9 +24,9 @@ AS $$
 	REVOKE SELECT, UPDATE, DELETE ON applications FROM rl_distributor;
 	REVOKE SELECT ON companyEmployees FROM rl_distributor;
 	REVOKE SELECT ON customersEmployees FROM rl_distributor;
-	REVOKE USAGE, SELECT ON SEQUENCE customers_okpo_seq FROM rl_distributor;
+	REVOKE USAGE, SELECT ON SEQUENCE customers_id_seq FROM rl_distributor;
 	REVOKE USAGE, SELECT ON SEQUENCE agreements_id_seq FROM rl_distributor;
-	REVOKE USAGE, SELECT ON SEQUENCE applications_number_seq FROM rl_distributor;
+	REVOKE USAGE, SELECT ON SEQUENCE applications_id_seq FROM rl_distributor;
 	REVOKE USAGE, SELECT ON SEQUENCE companyemployees_id_seq FROM rl_distributor;
 	REVOKE USAGE, SELECT ON SEQUENCE customersemployees_id_seq FROM rl_distributor;
 
@@ -34,7 +34,7 @@ AS $$
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON tasks FROM rl_executor;
 	REVOKE SELECT, INSERT, UPDATE, DELETE ON subTasks FROM rl_executor;
 	REVOKE SELECT ON customersEmployees FROM rl_executor;
-	REVOKE USAGE, SELECT ON SEQUENCE applications_number_seq FROM rl_executor;
+	REVOKE USAGE, SELECT ON SEQUENCE applications_id_seq FROM rl_executor;
 	REVOKE USAGE, SELECT ON SEQUENCE tasks_id_seq FROM rl_executor;
 	REVOKE USAGE, SELECT ON SEQUENCE subtasks_id_seq FROM rl_executor;
 	REVOKE USAGE, SELECT ON SEQUENCE customersemployees_id_seq FROM rl_executor;
@@ -47,6 +47,7 @@ AS $$
 	DROP INDEX IF EXISTS Index_employeesCode_customersEmployees;
 	DROP TABLE IF EXISTS customersEmployees;
 
+	DROP INDEX IF EXISTS Index_id_applications;
 	DROP INDEX IF EXISTS Index_number_applications;
 	DROP INDEX IF EXISTS Index_agreementId_applications;
 	DROP INDEX IF EXISTS Index_applicantCode_applications;
@@ -58,7 +59,7 @@ AS $$
 
 	DROP INDEX IF EXISTS Index_id_subTasks;
 	DROP INDEX IF EXISTS Index_taskId_subTasks;
-	DROP TABLE IF EXISTS subtasks;
+	DROP TABLE IF EXISTS subTasks;
 
 	DROP INDEX IF EXISTS Index_id_tasks;
 	DROP INDEX IF EXISTS Index_workerCode_tasks;
@@ -69,9 +70,10 @@ AS $$
 	DROP TABLE IF EXISTS equipment;
 
 	DROP INDEX IF EXISTS Index_id_agreements;
-	DROP INDEX IF EXISTS Index_customerOKPO_agreements;
+	DROP INDEX IF EXISTS Index_customerId_agreements;
 	DROP TABLE IF EXISTS agreements;
 
+	DROP INDEX IF EXISTS Index_id_customers;
 	DROP INDEX IF EXISTS Index_OKPO_customers;
 	DROP INDEX IF EXISTS Index_contactPhone_customers;
 	DROP TABLE IF EXISTS customers;

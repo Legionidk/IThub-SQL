@@ -46,7 +46,8 @@ AS $$
 		Index_employeesCode_customersEmployees on customersEmployees (employeesCode);
 	
 	CREATE TABLE IF NOT EXISTS customers (
-		id SERIAL constraint PK_customers primary key,
+		id SERIAL not null
+			constraint PK_customers primary key,
 		OKPO int unique not null,
 		contactPhone varchar(11) not null unique,
 		physicalAddress varchar(255) not null,
@@ -56,6 +57,8 @@ AS $$
 	);
 
 	CREATE INDEX IF NOT EXISTS
+		Index_id_customers on customers (id);
+	CREATE INDEX IF NOT EXISTS
 		Index_OKPO_customers on customers (okpo);
 	CREATE INDEX IF NOT EXISTS
 		Index_contactPhone_customers on customers (contactphone);
@@ -63,8 +66,8 @@ AS $$
 	CREATE TABLE IF NOT EXISTS agreements (
 		id SERIAL not null
 			constraint PK_agreements primary key,
-		customerOKPO int not null
-			references customers (OKPO)
+		customerId int not null
+			references customers (id)
 			on update cascade on delete cascade,
 		expiration date,
 		status varchar(10) not null
@@ -73,10 +76,11 @@ AS $$
 	CREATE INDEX IF NOT EXISTS
 		Index_id_agreements on agreements (id);
 	CREATE INDEX IF NOT EXISTS
-		Index_customerOKPO_agreements on agreements (customerokpo);
+		Index_customerId_agreements on agreements (customerId);
 
 	CREATE TABLE IF NOT EXISTS applications (
-		id SERIAL constraint PK_applications primary key,
+		id SERIAL not null 
+			constraint PK_applications primary key,
 		number int unique not null,
 		agreementId int not null
 			references agreements (id)
@@ -87,6 +91,8 @@ AS $$
 		expiration date not null
 	);
 
+	CREATE INDEX IF NOT EXISTS
+		Index_id_applications on applications (id);
 	CREATE INDEX IF NOT EXISTS
 		Index_number_applications on applications (number);
 	CREATE INDEX IF NOT EXISTS
@@ -118,7 +124,7 @@ AS $$
 	CREATE INDEX IF NOT EXISTS
 		Index_code_components on components (code);
 	CREATE INDEX IF NOT EXISTS
-		Index_equipmentCode_components on components (equipmentcode);
+		Index_equipmentCode_components on components (equipmentCode);
 	
 	CREATE TABLE IF NOT EXISTS tasks (
 		id SERIAL not null
@@ -136,11 +142,11 @@ AS $$
 	CREATE INDEX IF NOT EXISTS
 		Index_id_tasks on tasks (id);
 	CREATE INDEX IF NOT EXISTS
-		Index_workerCode_tasks on tasks (workercode);
+		Index_workerCode_tasks on tasks (workerCode);
 	CREATE INDEX IF NOT EXISTS
-		Index_equipmentCode_tasks on tasks (equipmentcode);
+		Index_equipmentCode_tasks on tasks (equipmentCode);
 	
-	CREATE TABLE IF NOT EXISTS subtasks (
+	CREATE TABLE IF NOT EXISTS subTasks (
 		id SERIAL not null
 			constraint PK_subtasks primary key,
 		taskId int not null
@@ -159,7 +165,7 @@ AS $$
 	GRANT SELECT, INSERT, UPDATE, DELETE ON employeesCredentials TO rl_administrator;
 	GRANT SELECT, INSERT, UPDATE, DELETE ON companyEmployees TO rl_administrator;
 	GRANT SELECT, INSERT, UPDATE, DELETE ON customersEmployees TO rl_administrator;
-	GRANT USAGE, SELECT ON SEQUENCE customers_okpo_seq TO rl_administrator;
+	GRANT USAGE, SELECT ON SEQUENCE customers_id_seq TO rl_administrator;
 	GRANT USAGE, SELECT ON SEQUENCE agreements_id_seq TO rl_administrator;
 	GRANT USAGE, SELECT ON SEQUENCE employeescredentials_code_seq TO rl_administrator;
 	GRANT USAGE, SELECT ON SEQUENCE companyemployees_id_seq TO rl_administrator;
@@ -168,7 +174,7 @@ AS $$
 	GRANT SELECT, INSERT, UPDATE ON applications TO rl_customer;
 	GRANT SELECT, INSERT, UPDATE, DELETE ON equipment TO rl_customer;
 	GRANT SELECT, INSERT, UPDATE, DELETE ON components TO rl_customer;
-	GRANT USAGE, SELECT ON SEQUENCE applications_number_seq TO rl_customer;
+	GRANT USAGE, SELECT ON SEQUENCE applications_id_seq TO rl_customer;
 	GRANT USAGE, SELECT ON SEQUENCE equipment_code_seq TO rl_customer;
 	GRANT USAGE, SELECT ON SEQUENCE components_code_seq TO rl_customer;
 
@@ -177,9 +183,9 @@ AS $$
 	GRANT SELECT, UPDATE, DELETE ON applications TO rl_distributor;
 	GRANT SELECT ON companyEmployees TO rl_distributor;
 	GRANT SELECT ON customersEmployees TO rl_distributor;
-	GRANT USAGE, SELECT ON SEQUENCE customers_okpo_seq TO rl_distributor;
+	GRANT USAGE, SELECT ON SEQUENCE customers_id_seq TO rl_distributor;
 	GRANT USAGE, SELECT ON SEQUENCE agreements_id_seq TO rl_distributor;
-	GRANT USAGE, SELECT ON SEQUENCE applications_number_seq TO rl_distributor;
+	GRANT USAGE, SELECT ON SEQUENCE applications_id_seq TO rl_distributor;
 	GRANT USAGE, SELECT ON SEQUENCE companyemployees_id_seq TO rl_distributor;
 	GRANT USAGE, SELECT ON SEQUENCE customersemployees_id_seq TO rl_distributor;
 
@@ -187,7 +193,7 @@ AS $$
 	GRANT SELECT, INSERT, UPDATE, DELETE ON tasks TO rl_executor;
 	GRANT SELECT, INSERT, UPDATE, DELETE ON subTasks TO rl_executor;
 	GRANT SELECT ON customersEmployees TO rl_executor;
-	GRANT USAGE, SELECT ON SEQUENCE applications_number_seq TO rl_executor;
+	GRANT USAGE, SELECT ON SEQUENCE applications_id_seq TO rl_executor;
 	GRANT USAGE, SELECT ON SEQUENCE tasks_id_seq TO rl_executor;
 	GRANT USAGE, SELECT ON SEQUENCE subtasks_id_seq TO rl_executor;
 	GRANT USAGE, SELECT ON SEQUENCE customersemployees_id_seq TO rl_executor;
