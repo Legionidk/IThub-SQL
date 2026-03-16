@@ -48,7 +48,7 @@ AS $$
 	CREATE TABLE IF NOT EXISTS customers (
 		id SERIAL not null
 			constraint PK_customers primary key,
-		OKPO int unique not null,
+		OKPO varchar(11) unique not null,
 		contactPhone varchar(11) not null unique,
 		physicalAddress varchar(255) not null,
 		legalAddress varchar(255) not null,
