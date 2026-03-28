@@ -21,30 +21,15 @@ AS $$
 			on update cascade on delete cascade,
 		name varchar(36) not null,
 		lastName varchar(36) not null,
-		middleName varchar(36)
+		middleName varchar(36),
+		emp_role varchar(50) not null
 	);
 
 	CREATE INDEX IF NOT EXISTS
 		Index_id_companyEmployees on companyEmployees (id);
 	CREATE INDEX IF NOT EXISTS
 		Index_employeesCode_companyEmployees on companyEmployees (employeesCode);
-	
-	CREATE TABLE IF NOT EXISTS customersEmployees (
-		id SERIAL not null
-			constraint PK_customersEmployees primary key,
-		employeesCode int not null
-			references employeesCredentials (code)
-			on update cascade on delete cascade,
-		name varchar(36) not null,
-		lastName varchar(36) not null,
-		middleName varchar(36)
-	);
 
-	CREATE INDEX IF NOT EXISTS
-		Index_id_customersEmployees on customersEmployees (id);
-	CREATE INDEX IF NOT EXISTS
-		Index_employeesCode_customersEmployees on customersEmployees (employeesCode);
-	
 	CREATE TABLE IF NOT EXISTS customers (
 		id SERIAL not null
 			constraint PK_customers primary key,
@@ -63,12 +48,34 @@ AS $$
 	CREATE INDEX IF NOT EXISTS
 		Index_contactPhone_customers on customers (contactphone);
 	
+	CREATE TABLE IF NOT EXISTS customersEmployees (
+		id SERIAL not null
+			constraint PK_customersEmployees primary key,
+		employeesCode int not null
+			references employeesCredentials (code)
+			on update cascade on delete cascade,
+		customersId int not null
+			references customers (id)
+			on update cascade on delete cascade,
+		name varchar(36) not null,
+		lastName varchar(36) not null,
+		middleName varchar(36),
+		emp_role varchar(50) not null
+	);
+
+	CREATE INDEX IF NOT EXISTS
+		Index_id_customersEmployees on customersEmployees (id);
+	CREATE INDEX IF NOT EXISTS
+		Index_employeesCode_customersEmployees on customersEmployees (employeesCode);
+	
 	CREATE TABLE IF NOT EXISTS agreements (
 		id SERIAL not null
 			constraint PK_agreements primary key,
+		agreementNumber varchar(13) not null unique,
 		customerId int not null
 			references customers (id)
 			on update cascade on delete cascade,
+		created_at date,
 		expiration date,
 		status varchar(10) not null
 	);
@@ -76,19 +83,21 @@ AS $$
 	CREATE INDEX IF NOT EXISTS
 		Index_id_agreements on agreements (id);
 	CREATE INDEX IF NOT EXISTS
+		Index_agreementNumber_agreements on agreements (agreementNumber);
+	CREATE INDEX IF NOT EXISTS
 		Index_customerId_agreements on agreements (customerId);
 
 	CREATE TABLE IF NOT EXISTS applications (
 		id SERIAL not null 
 			constraint PK_applications primary key,
-		number int unique not null,
+		number varchar(15) unique not null,
 		agreementId int not null
 			references agreements (id)
 			on update cascade on delete cascade,
 		applicantcode int not null
 			references employeesCredentials (code)
 			on update cascade on delete cascade,
-		expiration date not null
+		created_at timestamp not null
 	);
 
 	CREATE INDEX IF NOT EXISTS
@@ -129,6 +138,9 @@ AS $$
 	CREATE TABLE IF NOT EXISTS tasks (
 		id SERIAL not null
 			constraint PK_tasks primary key,
+		applicationId int not null
+			references applications (id)
+			on update cascade on delete cascade,
 		workerCode int not null
 			references employeesCredentials (code)
 			on update cascade on delete cascade,
@@ -152,7 +164,11 @@ AS $$
 		taskId int not null
 			references tasks (id)
 			on update cascade on delete cascade,
-		description varchar(255) not null
+		workerCode int not null
+			references employeesCredentials (code)
+			on update cascade on delete cascade,
+		description varchar(255) not null,
+		deadline date not null
 	);
 
 	CREATE INDEX IF NOT EXISTS

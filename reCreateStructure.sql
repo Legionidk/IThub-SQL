@@ -47,6 +47,15 @@ AS $$
 	DROP INDEX IF EXISTS Index_employeesCode_customersEmployees;
 	DROP TABLE IF EXISTS customersEmployees;
 
+	DROP INDEX IF EXISTS Index_id_subTasks;
+	DROP INDEX IF EXISTS Index_taskId_subTasks;
+	DROP TABLE IF EXISTS subTasks;
+
+	DROP INDEX IF EXISTS Index_id_tasks;
+	DROP INDEX IF EXISTS Index_workerCode_tasks;
+	DROP INDEX IF EXISTS Index_equipmentCode_tasks;
+	DROP TABLE IF EXISTS tasks;
+
 	DROP INDEX IF EXISTS Index_id_applications;
 	DROP INDEX IF EXISTS Index_number_applications;
 	DROP INDEX IF EXISTS Index_agreementId_applications;
@@ -57,19 +66,11 @@ AS $$
 	DROP INDEX IF EXISTS Index_equipmentCode_components;
 	DROP TABLE IF EXISTS components;
 
-	DROP INDEX IF EXISTS Index_id_subTasks;
-	DROP INDEX IF EXISTS Index_taskId_subTasks;
-	DROP TABLE IF EXISTS subTasks;
-
-	DROP INDEX IF EXISTS Index_id_tasks;
-	DROP INDEX IF EXISTS Index_workerCode_tasks;
-	DROP INDEX IF EXISTS Index_equipmentCode_tasks;
-	DROP TABLE IF EXISTS tasks;
-
 	DROP INDEX IF EXISTS Index_code_equipment;
 	DROP TABLE IF EXISTS equipment;
 
 	DROP INDEX IF EXISTS Index_id_agreements;
+	DROP INDEX IF EXISTS Index_agreementNumber_agreements;
 	DROP INDEX IF EXISTS Index_customerId_agreements;
 	DROP TABLE IF EXISTS agreements;
 
