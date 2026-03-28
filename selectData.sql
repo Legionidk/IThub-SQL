@@ -1,0 +1,76 @@
+-- для тестов необходимо раскомментить нужные select'ы :)
+
+-- SELECT для вывода организаций заказчиков
+-- select
+-- 	fullname,
+-- 	abbreviatename,
+-- 	legaladdress,
+-- 	physicaladdress,
+-- 	okpo,
+-- 	contactphone
+-- from customers
+-- order by fullname;
+
+-- SELECT для вывода перечня договоров (с этого момента начну использовать сокращения таблиц, чтобы не путаться в полях с одинаковыми названиями)
+-- select
+-- 	a.agreementnumber,
+-- 	a.created_at,
+-- 	a.expiration,
+-- 	a.status,
+-- 	c.abbreviatename,
+-- 	ce.lastname,
+-- 	ce.name,
+-- 	ce.middlename,
+-- 	ec.login,
+-- 	ec.password
+-- from agreements a
+-- join customers c on a.customerid = c.id
+-- join customersemployees ce on ce.customersid = c.id
+-- join employeescredentials ec on  ce.employeescode = ec.code
+
+-- SELECT для вывода сотрудников исполнителей
+-- select
+-- 	ce.name,
+-- 	ce.lastname,
+-- 	ce.middlename,
+-- 	ce.emp_role,
+-- 	ec.login,
+-- 	ec.password
+-- from companyemployees ce
+-- join employeescredentials ec on ce.employeescode = ec.code;
+
+-- а теперь SELECT для какого-то кошмарного вывода (пришлось нарыть много всякого в инете, а также использовать функцию, которую мы не проходили)
+-- мне хотелось сделать все единым селектом, поэтому он так кошмарно выглядит, зато соответствует данным из перечня тем
+-- select
+-- 	app.number,
+-- 	app.created_at,
+-- 	agr.agreementnumber,
+-- 	applicant.login as applicant,
+-- 	eq.type || ' ' || eq.model || ' ' || coalesce(' (' || eq.brand || ')', '') as equipment,
+-- 	string_agg(distinct comp.type || ': ' || comp.name, ', ') as specs,
+-- 	t.description as task_description,
+-- 	t.deadline as task_deadline,
+-- 	worker.login as worker,
+-- 	st.description as subtask_description,
+-- 	st.deadline as subtask_deadline,
+-- 	subworker.login as subtask_worker
+-- from applications app
+-- join agreements agr on app.agreementid = agr.id
+-- join employeescredentials applicant on app.applicantcode = applicant.code
+-- join tasks t on t.applicationid = app.id
+-- join equipment eq on t.equipmentcode = eq.code
+-- left join components comp on comp.equipmentcode = eq.code
+-- join employeescredentials worker on t.workercode = worker.code
+-- left join subtasks st on st.taskid = t.id
+-- left join employeescredentials subworker on st.workercode = subworker.code
+-- group by
+-- 	app.number,
+-- 	app.created_at,
+-- 	agr.agreementnumber,
+-- 	applicant.login,
+-- 	eq.type, eq.model, eq.brand,
+-- 	t.description, t.deadline,
+-- 	worker.login,
+-- 	st.description, st.deadline,
+-- 	subworker.login
+-- order by app.number;
