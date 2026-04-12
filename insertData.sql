@@ -96,6 +96,27 @@ AS $$
 	(4, 'ЦП', 'Intel Core I7'),
 	(4, 'ОЗУ', '16Gb'),
 	(4, 'SSD', '256Gb');
+
+	insert into cars (brand, model, color, number) values
+	('Skoda', 'Octavia', 'Чёрный', 'О653НА 97'),
+	('Ford', 'Focus 3', 'Чёрный', 'Н326ЕТ 75'),
+	('Skoda', 'Octavia', 'Белый', 'А673ЕК 99'),
+	('Audi', 'A4', 'Серый', 'О926НО 77');
+
+	insert into intermediaries (fullname, abbreviatename, address, contactphone) values
+	('ООО ФирмПром', 'ООО ФП', 'г. Москва, ул. Южная, д. 10 стр. 8', '+7(495)652-66-13'),
+	('НПАО Развезём', 'НПАО РазВсё', 'г. Москва, ул. КУтузовская, д. 8, к. 1', '+7(499)126-77-26');
+
+	insert into intermediariesdrivers (intermediarieid, lastname, firstname, middlename, contactphone, carid) values
+	(1, 'Иванов', 'Олег', 'Петрович', '+7(924)453-67-22', 1),
+	(1, 'Семёнов', 'Алексей', 'Геннадьевич', '+7(956)784-14-68', 2),
+	(2, 'Владимиров', 'Павел', 'Дмитриевич', '+7(999)773-24-99', 3),
+	(2, 'Романов', 'Роман', 'Александрович', '+7(910)327-88-21', 4);
+
+	insert into intermediariesagreements (number, created_at, intermediarieid, companyemployeeid, status) values
+	('ДОП/23-0000000001', '2023-01-20 13:20:40', 1, 1, 'Закрыт'),
+	('ДОП/23-0000000002', '2023-10-18 10:10:20', 2, 3, 'Открыт'),
+	('ДОП/24-0000000001', '2023-01-22 17:30:26', 1, 3, 'Открыт');
 $$;
 
 CALL loadSampleEmployee();
